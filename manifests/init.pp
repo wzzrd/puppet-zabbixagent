@@ -35,6 +35,12 @@ class zabbixagent(
       }
     }
 
+    redhat: {
+      package {'zabbix-agent':
+        ensure  => installed,
+      }
+    }
+
     debian, ubuntu: {
       package {'zabbix-agent' :
         ensure  => installed
@@ -43,7 +49,7 @@ class zabbixagent(
   }
 
   case $::operatingsystem {
-    debian, ubuntu, centos: {
+    debian, ubuntu, centos, redhat: {
       service {'zabbix-agent' :
         ensure  => running,
         enable  => true,
@@ -80,56 +86,6 @@ class zabbixagent(
       file { '/etc/zabbix/zabbix_agentd':
         ensure  => directory,
         require => Package['zabbix-agent'],
-      }
-    }
-    windows: {
-      $confdir = 'C:/ProgramData/Zabbix'
-      $homedir = 'C:/Program Files/Zabbix/'
-
-      file { $confdir: ensure => directory }
-      file { "${confdir}/zabbix_agentd.conf":
-        ensure  => present,
-        mode    => '0770',
-      }
-
-      ini_setting { 'servers setting':
-        ensure  => present,
-        path    => "${confdir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Server',
-        value   => join(flatten([$servers_real]), ','),
-        require => File["${confdir}/zabbix_agentd.conf"],
-        notify  => Service['Zabbix Agent'],
-      }
-
-      ini_setting { 'hostname setting':
-        ensure  => present,
-        path    => "${confdir}/zabbix_agentd.conf",
-        section => '',
-        setting => 'Hostname',
-        value   => $hostname_real,
-        require => File["${confdir}/zabbix_agentd.conf"],
-        notify  => Service['Zabbix Agent'],
-      }
-      
-      file { $homedir:
-        ensure  => directory,
-        source  => 'puppet:///modules/zabbixagent/win64',
-        recurse => true,
-        mode    => '0770',
-      }
-
-      exec { 'install Zabbix Agent':
-        path    => $::path,
-        cwd     => $homedir,
-        command => "\"${homedir}/zabbix_agentd.exe\" --config ${confdir}/zabbix_agentd.conf --install",
-        require => [File[$homedir], File["${confdir}/zabbix_agentd.conf"]],
-        unless  => 'sc query "Zabbix Agent"'
-      }
-
-      service { 'Zabbix Agent':
-        ensure  => running,
-        require => Exec['install Zabbix Agent'],
       }
     }
     default: { notice "Unsupported operatingsystem  ${::operatingsystem}" }
