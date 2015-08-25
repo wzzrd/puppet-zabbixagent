@@ -1,7 +1,8 @@
 # Zabbix Agent Puppet Module
 This module manages the zabbix agent for a monitored machine.
 
-This module has been tested against Puppet 3.0.1 on Windows Server 2008R2, Ubuntu Server 12.04, and CentOS 6.3.
+This module has been tested against Puppet 3.6 and Satellite 6.1.1 on RHEL6 and
+RHEL7.
 
 ## Usage
 
@@ -18,6 +19,7 @@ then please let me know.
 
 ### Authors
 * Scott Smerchek (@smerchek)
+* Maxim Burgerhout 
 
 ### Contributors
 * Martijn Storck (@martijn) - Added CentOS support
