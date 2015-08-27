@@ -65,6 +65,15 @@ class zabbixagent(
         notify  => Service['zabbix-agent'],
       }
 
+      ini_setting { 'servers active setting':
+        ensure  => present,
+        path    => '/etc/zabbix/zabbix_agentd.conf',
+        section => '',
+        setting => 'ServerActive',
+        value   => join(flatten([$servers_real]), ','),
+        notify  => Service['zabbix-agent'],
+      }
+
       ini_setting { 'hostname setting':
         ensure  => present,
         path    => '/etc/zabbix/zabbix_agentd.conf',
