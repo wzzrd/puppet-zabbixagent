@@ -90,4 +90,25 @@ class zabbixagent(
     }
     default: { notice "Unsupported operatingsystem  ${::operatingsystem}" }
   }
+
+  exec { '10050tcppermanent':
+    command     => 'firewall-cmd --add-port=10050/tcp --permanent',
+    refreshonly => true,
+  }
+
+  exec { '10050tcp':
+    command     => 'firewall-cmd --add-port=10050/tcp',
+    refreshonly => true,
+  }
+
+  exec { '10051tcppermanent':
+    command     => 'firewall-cmd --add-port=10051/tcp --permanent',
+    refreshonly => true,
+  }
+
+  exec { '10051tcp':
+    command     => 'firewall-cmd --add-port=10051/tcp',
+    refreshonly => true,
+  }
+
 }
