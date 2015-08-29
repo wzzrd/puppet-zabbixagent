@@ -103,30 +103,30 @@ class zabbixagent(
   if $::operatingssystem == 'RedHat' and $::operatingsystemmajrelease == 7 {
 
     exec { '10050tcppermanent':
-      command     => 'firewall-cmd --add-port=10050/tcp --permanent',
-      path        => '/usr/bin',
+      command => 'firewall-cmd --add-port=10050/tcp --permanent',
+      path    => '/usr/bin',
     }
 
     exec { '10050tcp':
-      command     => 'firewall-cmd --add-port=10050/tcp',
-      path        => '/usr/bin',
+      command => 'firewall-cmd --add-port=10050/tcp',
+      path    => '/usr/bin',
     }
 
     exec { '10051tcppermanent':
-      command     => 'firewall-cmd --add-port=10051/tcp --permanent',
-      path        => '/usr/bin',
+      command => 'firewall-cmd --add-port=10051/tcp --permanent',
+      path    => '/usr/bin',
     }
 
     exec { '10051tcp':
-      command     => 'firewall-cmd --add-port=10051/tcp',
-      path        => '/usr/bin',
+      command => 'firewall-cmd --add-port=10051/tcp',
+      path    => '/usr/bin',
     }
 
   } else {
 
     service { 'iptables':
-      ensure  => stopped,
-      enable  => false,
+      ensure => stopped,
+      enable => false,
     }
 
   }
