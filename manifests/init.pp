@@ -31,7 +31,7 @@ class zabbixagent(
 
       package {'zabbix-agent' :
         ensure  => installed,
-        require => Yumrepo["epel"]
+        require => Yumrepo['epel']
       }
     }
 
